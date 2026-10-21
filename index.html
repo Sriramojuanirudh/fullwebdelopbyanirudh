@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Architecture Visualizer & Security Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentBlue: '#3b82f6',
+                        accentCyan: '#06b6d4',
+                        accentGreen: '#10b981',
+                        accentPurple: '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .pulse-border {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-200 min-h-screen font-sans flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass border-b border-slate-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <img src="1000172955.png" 
+                     alt="Sriramoju Anirudh" 
+                     class="w-12 h-12 rounded-full object-cover border-2 border-accentBlue shadow-md"
+                     onerror="this.src='https://ui-avatars.com/api/?name=Sriramoju+Anirudh&background=3b82f6&color=fff'">
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-accentBlue to-accentCyan bg-clip-text text-transparent">
+                        DevArchitecture Visualizer
+                    </h1>
+                    <p class="text-xs text-slate-400">Created by Sriramoju Anirudh</p>
+                </div>
+            </div>
+
+            <!-- Tab Switching Buttons -->
+            <nav class="flex flex-wrap gap-2 text-sm font-medium">
+                <button onclick="switchTab('auth-flow')" id="tab-auth-flow" class="tab-btn px-4 py-2 rounded-lg bg-accentBlue text-white shadow-lg transition">
+                    <i class="fa-solid font-bold fa-lock mr-2"></i>Browser Auth Flow
+                </button>
+                <button onclick="switchTab('simulator')" id="tab-simulator" class="tab-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-play mr-2"></i>Request Simulator
+                </button>
+                <button onclick="switchTab('matrix')" id="tab-matrix" class="tab-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-layer-group mr-2"></i>Tech Stack Matrix
+                </button>
+                <button onclick="switchTab('prompt')" id="tab-prompt" class="tab-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-terminal mr-2"></i>Prompt Generator
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
+
+        <!-- TAB 1: BROWSER AUTHENTICATION & DATA ACCESS FLOW -->
+        <section id="sec-auth-flow" class="tab-content space-y-6">
+            <div class="glass p-6 rounded-2xl border border-slate-800">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-accentBlue"></i> Browser Authentication & Data Access Security
+                </h2>
+                <p class="text-slate-400 text-sm">
+                    How client web applications authenticate users, manage persistent sessions, protect private data, and process HTTP requests safely across modern web browsers.
+                </p>
+            </div>
+
+            <!-- Authentication Step-by-Step Interactive Diagram -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="glass p-5 rounded-xl border border-slate-800 hover:border-accentBlue transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold px-3 py-1 bg-accentBlue/20 text-accentBlue rounded-full">Step 1</span>
+                        <i class="fa-solid fa-key text-accentBlue text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">User Authentication</h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        User submits credentials (`email`/`password`) or authenticates via OAuth 2.0 / OpenID Connect.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded-lg text-xs font-mono text-emerald-400 overflow-x-auto">
+                        POST /api/v1/auth/login<br>
+                        { "email": "user@domain.com" }
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass p-5 rounded-xl border border-slate-800 hover:border-accentPurple transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold px-3 py-1 bg-accentPurple/20 text-accentPurple rounded-full">Step 2</span>
+                        <i class="fa-solid fa-cookie-bite text-accentPurple text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">Session / Token Storage</h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        Server verifies credentials and returns an encrypted JWT Token or sets an `HttpOnly` cookie.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded-lg text-xs font-mono text-purple-400 overflow-x-auto">
+                        Set-Cookie: session_id=xyz; HttpOnly; Secure; SameSite=Strict
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass p-5 rounded-xl border border-slate-800 hover:border-accentGreen transition">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold px-3 py-1 bg-accentGreen/20 text-accentGreen rounded-full">Step 3</span>
+                        <i class="fa-solid fa-database text-accentGreen text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">Authorized Data Retrieval</h3>
+                    <p class="text-xs text-slate-400 mb-4">
+                        Browser sends access token or session cookie with every fetch request to retrieve protected data.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded-lg text-xs font-mono text-cyan-400 overflow-x-auto">
+                        Authorization: Bearer &lt;JWT_TOKEN&gt;<br>
+                        GET /api/v1/user/dashboard
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Comparison Matrix -->
+            <div class="glass p-6 rounded-2xl border border-slate-800 overflow-x-auto">
+                <h3 class="text-lg font-bold text-white mb-4">Authentication Standard Comparison</h3>
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-800/60 text-slate-400 text-xs uppercase">
+                        <tr>
+                            <th class="p-3 rounded-l-lg">Method</th>
+                            <th class="p-3">Storage Location</th>
+                            <th class="p-3">Security Level</th>
+                            <th class="p-3 rounded-r-lg">Best Used For</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800">
+                        <tr>
+                            <td class="p-3 font-semibold text-accentBlue">HttpOnly Session Cookies</td>
+                            <td class="p-3">Browser Cookie Store (Inaccessible to JS)</td>
+                            <td class="p-3 text-emerald-400">High (Protected against XSS)</td>
+                            <td class="p-3">Traditional web applications & monolithic backends</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-semibold text-accentPurple">JSON Web Tokens (JWT)</td>
+                            <td class="p-3">Memory / Authorization Header</td>
+                            <td class="p-3 text-amber-400">Medium-High (Short lifetimes required)</td>
+                            <td class="p-3">REST APIs, Single Page Applications (SPAs) & Microservices</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-semibold text-accentCyan">OAuth 2.0 + PKCE</td>
+                            <td class="p-3">Identity Provider Token Exchange</td>
+                            <td class="p-3 text-emerald-400">Enterprise High</td>
+                            <td class="p-3">Social logins (Google, GitHub) & cross-platform auth</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 2: REQUEST FLOW SIMULATOR -->
+        <section id="sec-simulator" class="tab-content hidden space-y-6">
+            <div class="glass p-6 rounded-2xl border border-slate-800">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Full-Stack Request Lifecycle Simulator</h2>
+                        <p class="text-slate-400 text-sm">Simulate end-to-end data transmission across Client, API Server, and Database layers.</p>
+                    </div>
+                    <button onclick="runSimulation()" class="px-6 py-3 bg-gradient-to-r from-accentBlue to-accentCyan text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition">
+                        <i class="fa-solid fa-play mr-2"></i>Run Request Simulation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulation Terminal Output -->
+            <div class="glass p-6 rounded-2xl border border-slate-800 font-mono text-sm">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                    <span class="text-slate-400"><i class="fa-solid fa-terminal text-accentBlue mr-2"></i>Execution Logs</span>
+                    <span id="sim-status" class="text-xs px-3 py-1 bg-slate-800 text-slate-400 rounded-full">Idle</span>
+                </div>
+                <div id="terminal-logs" class="space-y-2 h-64 overflow-y-auto text-slate-300">
+                    <div class="text-slate-500">// Click "Run Request Simulation" above to visualize HTTP execution cycles...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: TECH STACK MATRIX -->
+        <section id="sec-matrix" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Frontend Tier -->
+                <div class="glass p-6 rounded-2xl border border-slate-800">
+                    <div class="text-accentBlue text-2xl mb-2"><i class="fa-solid fa-desktop"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">1. Frontend Layer</h3>
+                    <p class="text-xs text-slate-400 mb-4">Renders UI elements inside the client web browser.</p>
+                    <ul class="text-xs space-y-2 text-slate-300">
+                        <li>• <strong>HTML5 & CSS3:</strong> Page structuring & styles.</li>
+                        <li>• <strong>JavaScript (ES6+):</strong> Dynamic DOM manipulation.</li>
+                        <li>• <strong>React / Vue / Angular:</strong> Component state management.</li>
+                    </ul>
+                </div>
+
+                <!-- Backend Tier -->
+                <div class="glass p-6 rounded-2xl border border-slate-800">
+                    <div class="text-accentPurple text-2xl mb-2"><i class="fa-solid fa-server"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">2. Backend Layer</h3>
+                    <p class="text-xs text-slate-400 mb-4">Processes business logic, authentication, and API endpoints.</p>
+                    <ul class="text-xs space-y-2 text-slate-300">
+                        <li>• <strong>Node.js / Express:</strong> Asynchronous event-driven runtime.</li>
+                        <li>• <strong>Python (Django/FastAPI):</strong> High-performance APIs & data tasks.</li>
+                        <li>• <strong>Middleware:</strong> Authorization verification & rate limiting.</li>
+                    </ul>
+                </div>
+
+                <!-- Database Tier -->
+                <div class="glass p-6 rounded-2xl border border-slate-800">
+                    <div class="text-accentGreen text-2xl mb-2"><i class="fa-solid fa-database"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">3. Database Layer</h3>
+                    <p class="text-xs text-slate-400 mb-4">Handles persistent data storage and querying.</p>
+                    <ul class="text-xs space-y-2 text-slate-300">
+                        <li>• <strong>PostgreSQL / MySQL:</strong> Structured relational databases.</li>
+                        <li>• <strong>MongoDB:</strong> NoSQL flexible document storage.</li>
+                        <li>• <strong>Redis:</strong> In-memory caching for low latency.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PROMPT GENERATOR -->
+        <section id="sec-prompt" class="tab-content hidden space-y-6">
+            <div class="glass p-6 rounded-2xl border border-slate-800">
+                <h2 class="text-2xl font-bold text-white mb-2">Master Architecture Prompt Studio</h2>
+                <p class="text-slate-400 text-sm mb-4">Generate structured full-stack prompt templates for AI development assistants.</p>
+                
+                <div class="bg-slate-900 p-4 rounded-xl text-xs font-mono text-slate-300 space-y-2 border border-slate-800">
+                    <div class="text-accentBlue">// Copy-Paste Full Stack Architecture Prompt</div>
+                    <div>Act as a Senior Principal Full-Stack Architect. Help me design a production-grade web application created by <strong>Sriramoju Anirudh</strong>.</div>
+                    <div>• Frontend: React + Tailwind CSS with Session/Token Auth handling.</div>
+                    <div>• Backend: RESTful API built with Node.js/Express or FastAPI.</div>
+                    <div>• Database: PostgreSQL schema with security indexes and JWT middleware.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-slate-800 py-6 px-6 text-center mt-auto">
+        <p class="text-slate-400 text-sm font-medium">
+            Created and authored by Sriramoju Anirudh
+        </p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-accentBlue', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+
+            document.getElementById('sec-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+            activeBtn.classList.add('bg-accentBlue', 'text-white');
+        }
+
+        function runSimulation() {
+            const logs = document.getElementById('terminal-logs');
+            const status = document.getElementById('sim-status');
+            logs.innerHTML = '';
+            status.textContent = 'Executing...';
+            status.className = 'text-xs px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full';
+
+            const steps = [
+                { delay: 400, text: '[CLIENT] Initiating GET /api/v1/data request from Browser DOM...', color: 'text-accentBlue' },
+                { delay: 900, text: '[AUTH] Attaching Authorization Bearer Header [JWT Token Verified]', color: 'text-accentPurple' },
+                { delay: 1400, text: '[DNS] Domain resolved -> IP: 192.0.2.14', color: 'text-slate-400' },
+                { delay: 1900, text: '[SERVER] Node.js Express router received HTTP Request', color: 'text-accentBlue' },
+                { delay: 2400, text: '[DATABASE] Executing SQL Query: SELECT * FROM user_records WHERE id = 101;', color: 'text-accentGreen' },
+                { delay: 2900, text: '[HTTP 200 OK] Response payload returned to browser in 42ms.', color: 'text-emerald-400 font-bold' }
+            ];
+
+            steps.forEach(step => {
+                setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.className = step.color;
+                    line.textContent = step.text;
+                    logs.appendChild(line);
+                    logs.scrollTop = logs.scrollHeight;
+                }, step.delay);
+            });
+
+            setTimeout(() => {
+                status.textContent = 'Completed (200 OK)';
+                status.className = 'text-xs px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full';
+            }, 3200);
+        }
+    </script>
+</body>
+</html>
